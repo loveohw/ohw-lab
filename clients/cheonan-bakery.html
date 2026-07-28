@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>박람회 E브로셔</title>
+<style>
+  :root{
+    --color-primary:#1a56db;
+    --color-primary-dark:#123fa1;
+    --color-bg:#ffffff;
+    --color-bg-alt:#f7f8fa;
+    --color-text:#1f2430;
+    --color-text-sub:#6b7280;
+    --color-border:#e5e7eb;
+    --radius:14px;
+    --max-width:480px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,sans-serif;
+    background:var(--color-bg-alt);
+    color:var(--color-text);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{
+    max-width:var(--max-width);
+    margin:0 auto;
+    background:var(--color-bg);
+    min-height:100vh;
+    box-shadow:0 0 24px rgba(0,0,0,0.06);
+  }
+
+  /* ---------- 공통 ---------- */
+  section{padding:32px 20px;}
+  h2.section-title{
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.06em;
+    color:var(--color-primary);
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .section-heading{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:20px;
+    word-break:keep-all;
+  }
+
+  /* ---------- 히어로 / 회사 소개 ---------- */
+  .hero{
+    padding:40px 20px 32px;
+    text-align:center;
+    background:linear-gradient(180deg,#eef3ff 0%,var(--color-bg) 100%);
+  }
+  .logo-slot{
+    width:96px;
+    height:96px;
+    margin:0 auto 20px;
+    border-radius:20px;
+    background:#ffffff;
+    border:1px solid var(--color-border);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .logo-slot img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+  }
+  .logo-slot .logo-placeholder{
+    font-size:12px;
+    color:var(--color-text-sub);
+  }
+  .company-name{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .tagline{
+    font-size:16px;
+    color:var(--color-text-sub);
+    word-break:keep-all;
+  }
+  .booth-badge{
+    display:inline-block;
+    margin-top:16px;
+    padding:6px 14px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--color-primary);
+    background:#e8effe;
+    border-radius:999px;
+  }
+
+  /* ---------- 제품 카드 ---------- */
+  .product-grid{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .product-card{
+    display:flex;
+    gap:14px;
+    align-items:center;
+    padding:14px;
+    border:1px solid var(--color-border);
+    border-radius:var(--radius);
+    background:var(--color-bg);
+  }
+  .product-thumb{
+    flex:0 0 72px;
+    width:72px;
+    height:72px;
+    border-radius:10px;
+    background:var(--color-bg-alt);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    font-size:26px;
+  }
+  .product-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .product-info{flex:1;min-width:0;}
+  .product-name{
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .product-desc{
+    font-size:13px;
+    color:var(--color-text-sub);
+    word-break:keep-all;
+  }
+
+  /* ---------- 구분선 ---------- */
+  .divider{
+    height:8px;
+    background:var(--color-bg-alt);
+  }
+
+  /* ---------- 문의 섹션 ---------- */
+  .contact-section{background:var(--color-bg);}
+  .call-button{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    padding:15px;
+    margin-bottom:24px;
+    border:none;
+    border-radius:12px;
+    background:var(--color-primary);
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .call-button:active{opacity:.85;}
+  .call-button svg{width:18px;height:18px;flex-shrink:0;}
+
+  form.inquiry-form{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .form-group{display:flex;flex-direction:column;gap:6px;}
+  .form-group label{
+    font-size:13px;
+    font-weight:600;
+    color:var(--color-text-sub);
+  }
+  .form-group input,
+  .form-group textarea{
+    padding:12px 14px;
+    font-size:15px;
+    border:1px solid var(--color-border);
+    border-radius:10px;
+    background:var(--color-bg-alt);
+    color:var(--color-text);
+    font-family:inherit;
+    width:100%;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus{
+    outline:none;
+    border-color:var(--color-primary);
+    background:var(--color-bg);
+  }
+  .form-group textarea{resize:vertical;min-height:96px;}
+
+  .submit-button{
+    margin-top:6px;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:var(--color-text);
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .submit-button:active{opacity:.85;}
+  .submit-button:disabled{opacity:.5;cursor:not-allowed;}
+
+  .form-note{
+    font-size:12px;
+    color:var(--color-text-sub);
+    text-align:center;
+    margin-top:10px;
+    word-break:keep-all;
+  }
+
+  .form-status{
+    display:none;
+    margin-top:12px;
+    padding:12px;
+    border-radius:10px;
+    font-size:14px;
+    text-align:center;
+  }
+  .form-status.show{display:block;}
+  .form-status.success{background:#e6f4ea;color:#1e7a34;}
+  .form-status.error{background:#fdecea;color:#c0392b;}
+
+  footer{
+    padding:20px;
+    text-align:center;
+    font-size:12px;
+    color:var(--color-text-sub);
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- =======================================================
+       ① 회사 소개 섹션
+  ======================================================== -->
+  <section class="hero" id="company-section">
+    <div class="logo-slot" id="logo-slot">
+      <!-- 로고 이미지가 있으면 CONFIG.company.logoUrl 에 경로를 넣어주세요 -->
+      <span class="logo-placeholder">LOGO</span>
+    </div>
+    <div class="company-name" id="company-name"></div>
+    <div class="tagline" id="company-tagline"></div>
+    <div class="booth-badge" id="booth-badge"></div>
+  </section>
+
+  <section id="product-section">
+    <h2 class="section-title">PRODUCTS</h2>
+    <h3 class="section-heading">주요 제품/서비스</h3>
+    <div class="product-grid" id="product-grid"></div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- =======================================================
+       ② 문의 섹션
+  ======================================================== -->
+  <section class="contact-section" id="contact-section">
+    <h2 class="section-title">CONTACT</h2>
+    <h3 class="section-heading">담당자에게 문의하기</h3>
+
+    <a class="call-button" id="call-button" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      <span id="call-button-label">전화 걸기</span>
+    </a>
+
+    <form class="inquiry-form" id="inquiry-form">
+      <div class="form-group">
+        <label for="name">이름 <span aria-hidden="true">*</span></label>
+        <input type="text" id="name" name="name" placeholder="성함을 입력해주세요" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">연락처 <span aria-hidden="true">*</span></label>
+        <input type="tel" id="phone" name="phone" placeholder="010-0000-0000" required>
+      </div>
+      <div class="form-group">
+        <label for="message">문의내용</label>
+        <textarea id="message" name="message" placeholder="문의하실 내용을 입력해주세요"></textarea>
+      </div>
+      <button type="submit" class="submit-button" id="submit-button">문의 보내기</button>
+      <div class="form-status" id="form-status"></div>
+      <p class="form-note" id="form-note"></p>
+    </form>
+  </section>
+
+  <footer id="footer"></footer>
+
+</div>
+
+<script>
+/* =========================================================
+   ▼▼▼ 업체별 설정 (CONFIG) ▼▼▼
+   박람회 참가업체마다 이 블록의 값만 바꿔서 재사용하세요.
+   나머지 HTML/CSS/JS는 수정할 필요가 없습니다.
+========================================================= */
+const CONFIG = {
+  company: {
+    name: "천안베이커리",                   // 회사명
+    tagline: "매일 아침 구운 건강한 천연발효빵", // 한 줄 소개
+    boothNumber: "C-07",                  // 부스 번호 (없으면 "" 로 비워두면 배지 숨김)
+    logoUrl: ""                           // 로고 이미지 경로 (없으면 "" - LOGO 텍스트 표시)
+  },
+
+  products: [
+    {
+      name: "천연발효 캄파뉴",
+      desc: "국내산 밀가루와 천연 발효종으로 24시간 저온 숙성한 시그니처 식사빵입니다.",
+      imageUrl: "",   // 이미지 경로 (없으면 이모지 아이콘 표시)
+      icon: "🍞"
+    },
+    {
+      name: "버터 크루아상",
+      desc: "프랑스산 발효버터를 켜켜이 쌓아 매일 아침 갓 구워내는 정통 크루아상입니다.",
+      imageUrl: "",
+      icon: "🥐"
+    },
+    {
+      name: "티라미수 케이크",
+      desc: "에스프레소와 마스카포네 크림을 사용한 촉촉한 수제 티라미수 케이크입니다.",
+      imageUrl: "",
+      icon: "🍰"
+    }
+  ],
+
+  contact: {
+    phoneNumber: "041-555-0198",   // 전화 걸기 버튼에 사용할 실제 번호 (tel: 링크용, 숫자/하이픈)
+    callButtonLabel: "전화 걸기",
+    // 폼 제출 시 데이터를 보낼 곳. Google Form, Formspree, 자체 API 등의 endpoint URL을 넣으면
+    // fetch로 전송합니다. 비워두면(전송 endpoint 없음) 데모 모드로 동작하며 alert만 표시합니다.
+    submitEndpoint: "",
+    formNote: "남겨주신 연락처로 담당자가 순차적으로 연락드립니다.",
+    footerText: "© 2026 천안베이커리. All rights reserved."
+  }
+};
+/* =========================================================
+   ▲▲▲ 설정 끝 — 아래부터는 렌더링 로직 (수정 불필요) ▲▲▲
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderCompany();
+  renderProducts();
+  renderContact();
+  bindForm();
+});
+
+function renderCompany(){
+  const { name, tagline, boothNumber, logoUrl } = CONFIG.company;
+
+  document.getElementById("company-name").textContent = name;
+  document.getElementById("company-tagline").textContent = tagline;
+  document.title = `${name} | E브로셔`;
+
+  const badge = document.getElementById("booth-badge");
+  if (boothNumber) {
+    badge.textContent = `부스 ${boothNumber}`;
+  } else {
+    badge.style.display = "none";
+  }
+
+  const logoSlot = document.getElementById("logo-slot");
+  if (logoUrl) {
+    logoSlot.innerHTML = `<img src="${escapeAttr(logoUrl)}" alt="${escapeAttr(name)} 로고">`;
+  }
+}
+
+function renderProducts(){
+  const grid = document.getElementById("product-grid");
+  grid.innerHTML = "";
+
+  CONFIG.products.slice(0, 3).forEach((p) => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+
+    const thumbInner = p.imageUrl
+      ? `<img src="${escapeAttr(p.imageUrl)}" alt="${escapeAttr(p.name)}">`
+      : (p.icon || "📦");
+
+    card.innerHTML = `
+      <div class="product-thumb">${thumbInner}</div>
+      <div class="product-info">
+        <div class="product-name"></div>
+        <div class="product-desc"></div>
+      </div>
+    `;
+    card.querySelector(".product-name").textContent = p.name;
+    card.querySelector(".product-desc").textContent = p.desc;
+    grid.appendChild(card);
+  });
+}
+
+function renderContact(){
+  const { phoneNumber, callButtonLabel, formNote, footerText } = CONFIG.contact;
+
+  const callButton = document.getElementById("call-button");
+  callButton.href = `tel:${phoneNumber.replace(/[^0-9+]/g, "")}`;
+  document.getElementById("call-button-label").textContent = callButtonLabel;
+
+  document.getElementById("form-note").textContent = formNote;
+  document.getElementById("footer").textContent = footerText;
+}
+
+function bindForm(){
+  const form = document.getElementById("inquiry-form");
+  const submitButton = document.getElementById("submit-button");
+  const status = document.getElementById("form-status");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = {
+      name: form.name.value.trim(),
+      phone: form.phone.value.trim(),
+      message: form.message.value.trim(),
+      company: CONFIG.company.name,
+      submittedAt: new Date().toISOString()
+    };
+
+    if (!data.name || !data.phone) {
+      showStatus("이름과 연락처를 입력해주세요.", "error");
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = "전송 중...";
+
+    try {
+      if (CONFIG.contact.submitEndpoint) {
+        const res = await fetch(CONFIG.contact.submitEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error("전송 실패");
+      } else {
+        // 데모 모드: 실제 전송 endpoint가 설정되지 않은 경우
+        console.log("[데모 모드] 문의 데이터:", data);
+        await new Promise((resolve) => setTimeout(resolve, 400));
+      }
+
+      showStatus("문의가 접수되었습니다. 감사합니다!", "success");
+      form.reset();
+    } catch (err) {
+      showStatus("전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.", "error");
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "문의 보내기";
+    }
+  });
+
+  function showStatus(msg, type){
+    status.textContent = msg;
+    status.className = `form-status show ${type}`;
+  }
+}
+
+function escapeAttr(str){
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+</script>
+
+</body>
+</html>
